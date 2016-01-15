@@ -3,6 +3,7 @@ package luque.david.mymoviesapp;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +14,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import luque.david.mymoviesapp.API.MyApiEndPointsInterface;
+import luque.david.mymoviesapp.models.Movie;
+import luque.david.mymoviesapp.models.MoviesWrapper;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String BASE_URL = "http://192.168.0.154:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +59,34 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        squareRetrofitTest();
+    }
+
+    public void squareRetrofitTest() {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        MyApiEndPointsInterface apiService =
+                retrofit.create(MyApiEndPointsInterface.class);
+
+        final List<Movie> moviesFromApi = new ArrayList<>();
+        Call<Movie> call = apiService.getMovie(76341);
+
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Response<Movie> response, Retrofit retrofit) {
+                Log.d("MainActivity.java", "onResponde");
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("MainActivity", t.toString());
+            }
+        });
     }
 
     @Override
