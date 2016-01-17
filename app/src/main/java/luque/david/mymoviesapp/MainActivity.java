@@ -14,16 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import luque.david.mymoviesapp.API.MyApiEndPointsInterface;
+import luque.david.mymoviesapp.Fragments.ListMoviesFragment;
 import luque.david.mymoviesapp.models.Movie;
-import luque.david.mymoviesapp.models.MoviesWrapper;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -60,33 +56,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        squareRetrofitTest();
-    }
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.main_container, new ListMoviesFragment())
+                    .commit();
+        }
 
-    public void squareRetrofitTest() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        MyApiEndPointsInterface apiService =
-                retrofit.create(MyApiEndPointsInterface.class);
-
-        final List<Movie> moviesFromApi = new ArrayList<>();
-        Call<Movie> call = apiService.getMovie(76341);
-
-        call.enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(Response<Movie> response, Retrofit retrofit) {
-                Log.d("MainActivity.java", "onResponde");
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("MainActivity", t.toString());
-            }
-        });
+        //squareRetrofitTest();
     }
 
     @Override
@@ -127,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        /*if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -139,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
