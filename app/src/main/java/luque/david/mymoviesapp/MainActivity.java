@@ -65,31 +65,6 @@ public class MainActivity extends AppCompatActivity
         //squareRetrofitTest();
     }
 
-    public void squareRetrofitTest() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        MyApiEndPointsInterface apiService =
-                retrofit.create(MyApiEndPointsInterface.class);
-
-        Call<Movie> call = apiService.getMovie(76341);
-
-        call.enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(Response<Movie> response, Retrofit retrofit) {
-                Log.d("MainActivity.java", "onResponde");
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("MainActivity", t.toString());
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

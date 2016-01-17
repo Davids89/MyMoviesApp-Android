@@ -76,8 +76,10 @@ public class ListMoviesFragment extends Fragment {
         call.enqueue(new Callback<MoviesWrapper>() {
             @Override
             public void onResponse(Response<MoviesWrapper> response, Retrofit retrofit) {
-                Log.d("ListMoviesFragment", "GetMoviesFunction");
-                Log.d("ListMoviesFragment", "GetMoviesFunction");
+
+                for(Movie movie: response.body().getResults()){
+                    Log.wtf("Name of movie", movie.getTitle());
+                }
             }
 
             @Override

@@ -16,4 +16,8 @@ public class MoviesWrapper {
 
         this.results = results;
     }
+
+    public List<Movie> getResults() {
+        return results;
+    }
 }

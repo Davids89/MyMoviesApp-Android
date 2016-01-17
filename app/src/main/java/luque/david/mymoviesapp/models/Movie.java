@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Movie {
+import io.realm.RealmObject;
+
+public class Movie{
 
     @SerializedName("id")
-    public String id;
+    private String id;
 
     @SerializedName("title")
-    public String title;
+    private String title;
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -73,5 +75,9 @@ public class Movie {
         this.voteCount = vote_count;
         this.popular = popular;
         this.genreIds = genres_ids;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
