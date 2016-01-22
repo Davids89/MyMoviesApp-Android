@@ -29,7 +29,8 @@ public class ListMoviesFragment extends Fragment {
 
     Retrofit retrofit;
     MyApiEndPointsInterface apiService;
-    private static final String BASE_URL = "http://192.168.0.154:8080";
+    private static final String BASE_URL = "http://api.themoviedb.org/3/";
+    private static final String API_KEY = "7c45e91d96f141e78609a00969329847";
 
 
     public ListMoviesFragment() {
@@ -69,7 +70,7 @@ public class ListMoviesFragment extends Fragment {
 
         final List<Movie> moviesFromApi = new ArrayList<>();
 
-        Call<MoviesWrapper> call = apiService.getPopularMovies();
+        Call<MoviesWrapper> call = apiService.getPopularMovies(API_KEY, "es");
 
         Log.wtf("ListMoviesFragment", "No llega");
 
