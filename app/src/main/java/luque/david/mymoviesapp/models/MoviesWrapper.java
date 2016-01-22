@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class MoviesWrapper {
 
-    @SerializedName("movies")
+    @SerializedName("results")
     private List<Movie> results;
 
     public MoviesWrapper(List<Movie> results) {
