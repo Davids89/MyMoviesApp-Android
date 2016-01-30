@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -21,6 +22,7 @@ import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import luque.david.mymoviesapp.API.MyApiEndPointsInterface;
+import luque.david.mymoviesapp.Adapters.MovieAdapter;
 import luque.david.mymoviesapp.MainActivity;
 import luque.david.mymoviesapp.R;
 import luque.david.mymoviesapp.models.Movie;
@@ -42,6 +44,9 @@ public class ListMoviesFragment extends Fragment {
     private static final String BASE_URL = "http://api.themoviedb.org/3/";
     private static final String API_KEY = "7c45e91d96f141e78609a00969329847";
     Realm realm;
+    public List<Movie> popularMovies;
+    private MovieAdapter adapter;
+    public GridView gridView;
 
 
     public ListMoviesFragment() {
@@ -54,6 +59,9 @@ public class ListMoviesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview = inflater.inflate(R.layout.fragment_list_movies, container, false);
+        gridView = (GridView) rootview.findViewById(R.id.gridViewPopularMovies);
+
+        popularMovies = new ArrayList<Movie>();
 
         declareRealm();
 
@@ -96,8 +104,6 @@ public class ListMoviesFragment extends Fragment {
 
     public void getMoviesFunction(){
 
-        final List<Movie> moviesFromApi = new ArrayList<>();
-
         Call<MoviesWrapper> call = apiService.getPopularMovies(API_KEY, "es");
 
         Log.wtf("ListMoviesFragment", "No llega");
@@ -131,9 +137,15 @@ public class ListMoviesFragment extends Fragment {
                         mMovie.setPopular(movie.getPopular());
                     }
 
-                    realm.commitTransaction();
+                    popularMovies.add(mMovie);
 
+                    realm.commitTransaction();
                 }
+
+                adapter = new MovieAdapter(popularMovies, getActivity());
+
+                //pass movie array and context
+                gridView.setAdapter(adapter);
             }
 
             @Override
