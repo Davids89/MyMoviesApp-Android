@@ -1,7 +1,6 @@
 package luque.david.mymoviesapp.Adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,25 +35,34 @@ public class MovieAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        View v;
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.movie_grid_item, parent, false);
+            v = inflater.inflate(R.layout.movie_grid_item, parent, false);
+        }else{
+            v = convertView;
         }
 
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_image);
-        TextView textView = (TextView) convertView.findViewById(R.id.nombre_pelicula);
+        ImageView imageView = (ImageView) v.findViewById(R.id.movie_image);
+        TextView textView = (TextView) v.findViewById(R.id.nombre_pelicula);
 
         final Movie movie = getItem(position);
         imageView.setImageResource(R.drawable.movie);
 
-        return convertView;
+        textView.setText(movie.getTitle());
+
+        Log.d("MOVIE MOVIE", movie.getTitle() + ' ' + position);
+
+        return v;
 
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+
+        return position;
     }
 
     @Override
