@@ -10,8 +10,6 @@
         android:layout_height="match_parent"
         android:columnWidth="120dp"
         android:horizontalSpacing="@dimen/espacio_grilla"
-        android:numColumns="auto_fit"
-        android:padding="@dimen/espacio_grilla"
-        android:verticalSpacing="@dimen/espacio_grilla" />
+        android:numColumns="2"/>
 
 </FrameLayout>
