@@ -106,8 +106,6 @@ public class ListMoviesFragment extends Fragment {
 
         Call<MoviesWrapper> call = apiService.getPopularMovies(API_KEY, "es");
 
-        Log.wtf("ListMoviesFragment", "No llega");
-
         call.enqueue(new Callback<MoviesWrapper>() {
             @Override
             public void onResponse(Response<MoviesWrapper> response, Retrofit retrofit) {
@@ -116,8 +114,6 @@ public class ListMoviesFragment extends Fragment {
 
                 for(Movie movie: response.body().getResults()){
 
-                    realm.beginTransaction();
-
                     RealmQuery<Movie> movieQuery = realm.where(Movie.class);
 
                     movieQuery.equalTo("id", movie.getId());
@@ -125,6 +121,9 @@ public class ListMoviesFragment extends Fragment {
                     RealmResults<Movie> result = movieQuery.findAll();
 
                     if(result.size() == 0){
+
+                        realm.beginTransaction();
+
                         mMovie.setTitle(movie.getTitle());
                         mMovie.setId(movie.getId());
                         mMovie.setPosterPath(movie.getPosterPath());
@@ -135,11 +134,11 @@ public class ListMoviesFragment extends Fragment {
                         mMovie.setOriginalLanguage(movie.getOriginalLanguage());
                         mMovie.setVoteCount(movie.getVoteCount());
                         mMovie.setPopular(movie.getPopular());
+
+                        realm.commitTransaction();
                     }
 
                     popularMovies.add(mMovie);
-
-                    realm.commitTransaction();
                 }
 
                 adapter = new MovieAdapter(popularMovies, getActivity());
