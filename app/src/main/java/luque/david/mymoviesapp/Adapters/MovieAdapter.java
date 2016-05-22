@@ -46,12 +46,9 @@ public class MovieAdapter extends BaseAdapter {
         }
 
         ImageView imageView = (ImageView) v.findViewById(R.id.movie_image);
-        TextView textView = (TextView) v.findViewById(R.id.nombre_pelicula);
 
         final Movie movie = getItem(position);
         imageView.setImageResource(R.drawable.movie);
-
-        textView.setText(movie.getTitle());
 
         Log.d("MOVIE MOVIE", movie.getTitle() + ' ' + position);
 
